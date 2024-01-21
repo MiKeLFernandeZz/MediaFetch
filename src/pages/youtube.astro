@@ -4,13 +4,14 @@ import Nav from "../components/Nav.astro";
 import "@fontsource-variable/onest";
 ---
 
+
 <Layout title="Download from Youtube">
     <main class="w-full h-full min-w-screen min-h-screen relative">
         <Nav />
         <section class="w-full pt-48">
             <div class="flex justify-center items-center flex-col gap-2 w-full">
                 <h1
-                    class="text-white lg:text-7xl sm:text-5xl text-3xl text-center font-bold capitalize sm:leading-[3.7rem]"
+                    class="text-white lg:text-7xl text-5xl text-center font-bold capitalize leading-[3.7rem]"
                 >
                     <span class="text-[#6F272B] bg-white rounded-lg px-2"
                         >Youtube</span
@@ -21,13 +22,15 @@ import "@fontsource-variable/onest";
                     for="link"
                     class="text-white/85 lg:text-2xl md:text-lg text-md text-center"
                 />
-                <div class="flex gap-4 mt-6">
+                <form class="flex md:flex-row flex-col gap-4 mt-6">
                     <div class="relative">
                         <input
                             title="link"
+                            name="link"
                             id="link"
                             type="text"
-                            class="lg:w-[550px] md:w-[350px] w-[250px] max-w-lg h-10 bg-neutral-900 rounded-lg relative z-20 m-[2px] border-none text-white px-3"
+                            required
+                            class="lg:w-[550px] w-[350px] max-w-lg h-10 bg-neutral-900 rounded-lg relative z-20 m-[2px] border-none text-white px-3"
                         />
                         <div
                             class="bg-gradient-to-br from-red-900 to-violet-500 absolute top-0 bottom-0 left-0 right-0 rounded-lg z-0"
@@ -35,18 +38,36 @@ import "@fontsource-variable/onest";
                         </div>
                     </div>
                     <button
-                        class="text-[#6F272B] bg-white rounded-3xl px-8 lg:text-lg md:text-md sm:text-sm"
+                        class="text-[#6F272B] bg-white h-10 rounded-3xl px-8 lg:text-lg md:text-md sm:text-sm py-auto mx-auto" type="submit"
                         >Download</button
                     >
-                </div>
+                </form>
             </div>
         </section>
-        <div
-            class="absolute top-0 z-[-2] h-screen w-screen bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-10%,rgba(111,39,44),rgba(255,255,255,0))]"
-        >
-        </div>
     </main>
 </Layout>
+
+<script>
+
+    function submitHandle (e){
+        e.preventDefault()
+        const url = document.querySelector('input').value
+        // https://www.youtube.com/watch?v=0hTIMqFIXno&ab_channel=LMDOrslok
+        const urlObj = new URL(url)
+        const parametros = new URLSearchParams(urlObj.search);
+
+        const redirect_url = `/youtube/url?v=${parametros.get('v')}&ab_channel=${parametros.get('ab_channel')}`
+
+        console.log(redirect_url)
+        // window.location.href = '/youtube/url?' + urlSearchParams.toString()
+}
+
+
+        // alert(url)
+
+    document.querySelector('form').addEventListener('submit', submitHandle)
+
+</script>
 
 <style>
     h1,
