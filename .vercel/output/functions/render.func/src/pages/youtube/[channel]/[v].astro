@@ -1,0 +1,106 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Nav from "../../../components/Nav.astro";
+import "@fontsource-variable/onest";
+import Title from "../../../components/Title.astro";
+
+export const prerender = false;
+const { v, channel } = Astro.params;
+
+function obtenerMiniaturaYoutube(url) {
+    const videoIdMatch = url.match(/[?&]v=([^&]+)/);
+    const videoId = videoIdMatch ? videoIdMatch[1] : null;
+
+    if (videoId) {
+        const miniaturaUrl = `https://img.youtube.com/vi/${videoId}/0.jpg`;
+        return miniaturaUrl;
+    } else {
+        console.error(
+            "No se pudo extraer el ID del video de la URL de YouTube.",
+        );
+        return null;
+    }
+}
+
+async function getTitle(videoId) {
+    const request_url = `https://www.youtube.com/watch?v=${videoId}`;
+
+    try {
+        const response = await fetch(request_url);
+
+        if (response.ok) {
+            const html = await response.text();
+            const tituloMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
+            const titulo = tituloMatch ? tituloMatch[1] : null;
+
+            return titulo;
+        } else {
+            console.error(
+                "Error al obtener la página de YouTube:",
+                response.statusText,
+            );
+            return null; // Devolvemos null en caso de error
+        }
+    } catch (error) {
+        console.error(
+            "Error al realizar la solicitud a YouTube:",
+            error.message,
+        );
+        return null; // Devolvemos null en caso de error
+    }
+}
+
+const urlYoutube = `https://www.youtube.com/watch?v=${v}&ab_channel=${channel}`;
+const miniaturaUrl = obtenerMiniaturaYoutube(urlYoutube);
+const titulo = await getTitle(v);
+---
+
+<Layout title="Download video from Youtube">
+    <main class="w-full h-full min-w-screen min-h-screen relative">
+        <Nav />
+        <section class="w-full pt-48">
+            <div class="flex justify-center items-center flex-col gap-2 w-full">
+                <Title />
+                <article
+                    class="mt-10 relative max-w-md md:max-w-lg lg:max-w-3xl"
+                >
+                    <div
+                        class="bg-neutral-800 grid grid-rows-[1fr_auto] grid-cols-1 lg:grid-rows-1 lg:grid-cols-2 justify-center gap-4 p-4 rounded-2xl m-[2px] z-10 relative h-full"
+                    >
+                        <img
+                            src={miniaturaUrl}
+                            alt=`Miniatura de ${channel}`
+                            class="w-full rounded-2xl"
+                        />
+                        <div class="py-4 px-2 h-full">
+                            <p class="text-white text-2xl text-pretty">
+                                {titulo}
+                            </p>
+                            <p class="text-white/70 text-lg mt-3 text-left">
+                                {channel}
+                            </p>
+                            <button
+                                class="text-[#6F272B] bg-white h-10 rounded-3xl px-8 lg:text-lg md:text-md sm:text-sm py-auto mx-auto mt-auto absolute bottom-5 right-5"
+                            >
+                                Download
+                            </button>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-gradient-to-br from-red-900 to-violet-500 absolute top-0 bottom-0 left-0 right-0 rounded-2xl z-0"
+                    >
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+</Layout>
+
+<style>
+    h1,
+    label,
+    button,
+    p {
+        font-family: "Onest Variable", sans-serif;
+    }
+</style>
