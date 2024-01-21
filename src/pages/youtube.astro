@@ -1,22 +1,18 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Nav from "../components/Nav.astro";
+// import Layout from "../layouts/Layout.astro";
+import Layout from "@/layouts/Layout.astro";
+import Nav from "@/components/Nav.astro";
+import Title from "@/components/Title.astro"
 import "@fontsource-variable/onest";
 ---
 
 
-<Layout title="Download from Youtube">
+<Layout title="Download video from Youtube">
     <main class="w-full h-full min-w-screen min-h-screen relative">
         <Nav />
         <section class="w-full pt-48">
             <div class="flex justify-center items-center flex-col gap-2 w-full">
-                <h1
-                    class="text-white lg:text-7xl text-5xl text-center font-bold capitalize leading-[3.7rem]"
-                >
-                    <span class="text-[#6F272B] bg-white rounded-lg px-2"
-                        >Youtube</span
-                    > video <span class="text-transparent bg-clip-text bg-gradient-to-br from-pink-600 to-red-400">downloader</span>
-                </h1>
+                <Title/>
                 <label
                     set:text="Paste the link here"
                     for="link"
@@ -28,7 +24,7 @@ import "@fontsource-variable/onest";
                             title="link"
                             name="link"
                             id="link"
-                            type="text"
+                            type="url"
                             required
                             class="lg:w-[550px] w-[350px] max-w-lg h-10 bg-neutral-900 rounded-lg relative z-20 m-[2px] border-none text-white px-3"
                         />
@@ -56,14 +52,11 @@ import "@fontsource-variable/onest";
         const urlObj = new URL(url)
         const parametros = new URLSearchParams(urlObj.search);
 
-        const redirect_url = `/youtube/url?v=${parametros.get('v')}&ab_channel=${parametros.get('ab_channel')}`
+        const redirect_url = `/youtube/${parametros.get('ab_channel')}/${parametros.get('v')}`
 
         console.log(redirect_url)
-        // window.location.href = '/youtube/url?' + urlSearchParams.toString()
-}
-
-
-        // alert(url)
+        window.location.href = redirect_url
+    }
 
     document.querySelector('form').addEventListener('submit', submitHandle)
 

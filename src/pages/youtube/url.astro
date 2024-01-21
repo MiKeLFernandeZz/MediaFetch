@@ -1,0 +1,29 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import "@fontsource-variable/onest";
+import Title from "../../components/Title.astro"
+
+---
+
+<Layout title="Download video from Youtube">
+    <main class="w-full h-full min-w-screen min-h-screen relative">
+        <Nav />
+        <section class="w-full pt-48">
+            <div class="flex justify-center items-center flex-col gap-2 w-full">
+                <Title/>
+                <article>
+                    <h1>test</h1>
+                </article>
+            </div>
+        </section>
+    </main>
+</Layout>
+
+<style>
+    h1,
+    label,
+    button {
+        font-family: "Onest Variable", sans-serif;
+    }
+</style>
