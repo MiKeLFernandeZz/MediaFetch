@@ -52,7 +52,8 @@ import "@fontsource-variable/onest";
         const urlObj = new URL(url)
         const parametros = new URLSearchParams(urlObj.search);
 
-        const redirect_url = `/youtube/${parametros.get('ab_channel')}/${parametros.get('v')}`
+        // const redirect_url = `/youtube/${parametros.get('ab_channel')}/${parametros.get('v')}`
+        const redirect_url = `/youtube/url?v=${parametros.get('v')}&ab_channel=${parametros.get('ab_channel')}`
 
         console.log(redirect_url)
         window.location.href = redirect_url
