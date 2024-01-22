@@ -15,5 +15,8 @@
     "@fontsource-variable/onest": "^5.0.2",
     "astro": "^4.2.1",
     "tailwindcss": "^3.4.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.19.11"
   }
 }
